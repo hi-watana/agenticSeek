@@ -32,6 +32,8 @@ services:
       - "8080:8080"
     volumes:
       - ./searxng:/etc/searxng:rw,z
+      - ./searxng_overrides/radio_browser.py:/usr/local/searxng/searx/engines/radio_browser.py:ro,z
+      - ./searxng_overrides/pycache:/usr/local/searxng/searx/engines/__pycache__:rw,z
     environment:
       - SEARXNG_BASE_URL=${SEARXNG_BASE_URL:-http://localhost:8080/}
       - SEARXNG_SECRET_KEY=${SEARXNG_SECRET_KEY}
@@ -86,7 +88,7 @@ services:
       - REDIS_URL=${REDIS_BASE_URL:-redis://redis:6379/0}
       - WORK_DIR=/opt/workspace
       - BACKEND_PORT=${BACKEND_PORT}
-      - DOCKER_INTERNAL_URL=http://host.docker.internal
+      - DOCKER_INTERNAL_URL=${DOCKER_INTERNAL_URL:-http://host.docker.internal}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
