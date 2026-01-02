@@ -2,7 +2,7 @@ import readline
 from typing import List, Tuple, Type, Dict
 
 from sources.text_to_speech import Speech
-from sources.utility import pretty_print, animate_thinking
+from sources.utility import pretty_print, animate_thinking, supports_unicode_output
 from sources.router import AgentRouter
 from sources.speech_to_text import AudioTranscriber, AudioRecorder
 import threading
@@ -105,7 +105,7 @@ class Interaction:
         """Read the input from the user."""
         buffer = ""
 
-        PROMPT = "\033[1;35m➤➤➤ \033[0m"
+        PROMPT = "\033[1;35m➤➤➤ \033[0m" if supports_unicode_output() else ">>> "
         while not buffer:
             try:
                 buffer = input(PROMPT)
