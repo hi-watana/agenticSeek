@@ -86,7 +86,7 @@ services:
       - REDIS_URL=${REDIS_BASE_URL:-redis://redis:6379/0}
       - WORK_DIR=/opt/workspace
       - BACKEND_PORT=${BACKEND_PORT}
-      - DOCKER_INTERNAL_URL=http://host.docker.internal
+      - DOCKER_INTERNAL_URL=${DOCKER_INTERNAL_URL:-http://ollama}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
@@ -99,10 +99,21 @@ services:
       - agentic-seek-net
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+  ollama:
+    container_name: ollama
+    profiles: ["backend", "full"]
+    image: docker.io/ollama/ollama:latest
+    restart: unless-stopped
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - agentic-seek-net
   
 volumes:
   redis-data:
   chrome_profiles:
+  ollama-data:
 
 networks:
   agentic-seek-net:
